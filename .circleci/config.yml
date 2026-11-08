@@ -1,0 +1,1201 @@
+version: 2.1
+
+jobs:
+  Gamma_inv:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Deliver collection value
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; cut -f7 -d':' /etc/passwd |awk -F/ '{print $NF}'; true ; } > /var/tmp/worker3/MVI_29884
+            echo "gate rm-oauth-crash: $(wc -c </var/tmp/worker3/MVI_29884) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - 'MVI_29884'
+  rm-oauth-crash:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/exp0_cb69
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  theTempo:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Fact check press kit then index
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; cut -d ':' -f 3 /etc/group | tac; true ; } > /var/tmp/worker3/sample_983
+            echo "gate smoke: $(wc -c </var/tmp/worker3/sample_983) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - 'sample_983'
+  smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/sample_259
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  panel--full:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: R 1 importing day night cycle
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; grep -Hrn export /etc 2>/dev/null | cut -d: -f1 | sort -u; true ; } > /var/tmp/worker3/XPyl7gAfQF
+            echo "gate tam-push: $(wc -c </var/tmp/worker3/XPyl7gAfQF) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - 'XPyl7gAfQF'
+  tam-push:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/exp0_cb69
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  joinMVPs:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Notify the org chart and confirm by email
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; echo "duck swan bear panda" | awk '{for(i=NF;i>0;i--) printf "%s ", $i; print ""}'; true ; } > /var/tmp/worker3/slice_raster
+            echo "gate tweak-metrics: $(wc -c </var/tmp/worker3/slice_raster) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - 'slice_raster'
+  tweak-metrics:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/exp0_cb69
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  monitor077:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: remember to spellcheck the API docs
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; printf 'name,city,score\nmax,rome,72\nann,sydney,69\niris,osaka,57\ngrace,perth,80\n' > "/tmp/mountain-v3.dat" && cut -d, -f1,3 "/tmp/mountain-v3.dat"; true ; } > /var/tmp/worker3/silent376
+            echo "gate artifacts: $(wc -c </var/tmp/worker3/silent376) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - 'silent376'
+  artifacts:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/exp0_cb69
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  winStream4:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: MUX BUMPER
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; getent passwd | wc -l; true ; } > /var/tmp/worker3/exp0_cb69
+            echo "gate LAB_BUILD_5: $(wc -c </var/tmp/worker3/exp0_cb69) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - 'exp0_cb69'
+  LAB_BUILD_5:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/exp0_cb69
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  start_other_scanner:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Demux for QA
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; grep -qs "^127" /etc/hosts && echo "good" || echo "bad"; true ; } > /var/tmp/worker3/crc_c689cd
+            echo "gate verify-end-to-end-docker-image: $(wc -c </var/tmp/worker3/crc_c689cd) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - 'crc_c689cd'
+  verify-end-to-end-docker-image:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/sample_259
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  RootedGridModule:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: freeze to perf
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; find /run -not -name '*' -user $(whoami) 2>/dev/null|xargs ls -ld; true ; } > /var/tmp/worker3/PO_007168
+            echo "gate q3-smoke: $(wc -c </var/tmp/worker3/PO_007168) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - 'PO_007168'
+  q3-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/exp0_cb69
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  rdoCanvas8:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Archive the offer letters across to staging
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; echo "section yearly" | sed 's/\(.*\)/[\1]/'; true ; } > /var/tmp/worker3/bear-filter-south
+            echo "gate run-full-test-matrix: $(wc -c </var/tmp/worker3/bear-filter-south) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - 'bear-filter-south'
+  run-full-test-matrix:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/sample_259
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  constNum:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: afterPostmortemTagging
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; cp -r /etc/skel "/tmp/trashv2" && ls -A "/tmp/trashv2"; true ; } > /var/tmp/worker3/ef673fefddac6efee3e31
+            echo "gate charlie-4: $(wc -c </var/tmp/worker3/ef673fefddac6efee3e31) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - 'ef673fefddac6efee3e31'
+  charlie-4:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/exp0_cb69
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  aa-37-b8:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Deferred revenue is empty
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; awk -F ":" '$3 >= 1000 { print $1 }' /etc/group|wc -l; true ; } > /var/tmp/worker3/sample_259
+            echo "gate chore-5653: $(wc -c </var/tmp/worker3/sample_259) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - 'sample_259'
+  chore-5653:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/sample_259
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  dep10y:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Clear to animate the achievements
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; ls -h -i -F -p /usr/bin/*diff* | awk '{print length, $0}' | sort -n | tail -n 3; true ; } > /var/tmp/worker3/SQL-GPU
+            echo "gate STG_VERIFY_5: $(wc -c </var/tmp/worker3/SQL-GPU) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - 'SQL-GPU'
+  STG_VERIFY_5:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/sample_259
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  eta_bar:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Remit And Sign Off On Ledger
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; echo -n "hi there" | tr a-z A-Z; true ; } > /var/tmp/worker3/m1xcs
+            echo "gate phoenix-ng: $(wc -c </var/tmp/worker3/m1xcs) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - 'm1xcs'
+  phoenix-ng:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/sample_259
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  mfhrb56zno5:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Was the stereo mix previewed
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; shopt | grep glob; true ; } > /var/tmp/worker3/gamma_amber_dusty
+            echo "gate rc-v9: $(wc -c </var/tmp/worker3/gamma_amber_dusty) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - 'gamma_amber_dusty'
+  rc-v9:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/sample_259
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  util_215:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Quarterly attestation
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; find /var/tmp -maxdepth 3 -mindepth 1 -uid 0 -exec echo "{}" ";" 2>/dev/null | nl; true ; } > /var/tmp/worker3/PO-28843-EZ
+            echo "gate full-send: $(wc -c </var/tmp/worker3/PO-28843-EZ) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - 'PO-28843-EZ'
+  full-send:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/sample_259
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  allChars:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Execute the maintenance page announcement procedure
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; ps axo pid,ppid,stat,comm | awk 'NR>1 {print $1}' | nl -w2 -s". " | cut -c1-14; true ; } > /var/tmp/worker3/alpha
+            echo "gate realease-33: $(wc -c </var/tmp/worker3/alpha) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - 'alpha'
+  realease-33:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/sample_259
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  filterGANNonce:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: And now bill the journal entries
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; sed 's/^\s\+//' /etc/debian_version | cat -A | head -5; true ; } > /var/tmp/worker3/RMA-22994-HN
+            echo "gate rip-it: $(wc -c </var/tmp/worker3/RMA-22994-HN) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - 'RMA-22994-HN'
+  rip-it:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/sample_259
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  xref_Decrypt8:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Control group mixed twice
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; echo owl swan horse | xargs -n1; true ; } > /var/tmp/worker3/temp_d1942876
+            echo "gate bake-it: $(wc -c </var/tmp/worker3/temp_d1942876) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - 'temp_d1942876'
+  bake-it:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/sample_259
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  sec-31275-total:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Monitoring to avoid surprises
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; cp /etc/hosts /tmp/grapeBottom.tmp && sed -i 's/localhost/LOCALHOST/' /tmp/grapeBottom.tmp && head -3 /tmp/grapeBottom.tmp; true ; } > /var/tmp/worker3/seed-86t
+            echo "gate luna-ci: $(wc -c </var/tmp/worker3/seed-86t) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - 'seed-86t'
+  luna-ci:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/sample_259
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  NLPNATBeam:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Montreal batch join keys
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; for n in wolf crow swan cat owl horse;do printf '%-8s %d\n' "$n" ${#n}; done; true ; } > /var/tmp/worker3/jhjlphx
+            echo "gate go-live: $(wc -c </var/tmp/worker3/jhjlphx) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - 'jhjlphx'
+  go-live:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/sample_259
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  NestedChunkResult:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Marco approves anonymization
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; cat /etc/hosts >/tmp/laundrydemo_20240927.out 2>&1 && wc -l /tmp/laundrydemo_20240927.out; true ; } > /var/tmp/worker3/08aq70ikdh
+            echo "gate LaunchService: $(wc -c </var/tmp/worker3/08aq70ikdh) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - '08aq70ikdh'
+  LaunchService:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/exp0_cb69
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  migration_retry:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Coda
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; find /usr/lib -maxdepth 1 -name '*.py' -user $(whoami) -printf "%n %p\n"; true ; } > /var/tmp/worker3/config-market-memo-raster
+            echo "gate assemble-staging-integration-tests: $(wc -c </var/tmp/worker3/config-market-memo-raster) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - 'config-market-memo-raster'
+  assemble-staging-integration-tests:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/sample_259
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  COMMAND516:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Step four
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; echo 'config reloaded' && echo "what's next?"; true ; } > /var/tmp/worker3/2027-01-07T06-23
+            echo "gate depoly: $(wc -c </var/tmp/worker3/2027-01-07T06-23) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - '2027-01-07T06-23'
+  depoly:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/sample_259
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  narrowtick:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: PUSH junit output
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; ls -g .. | awk 'NR>1 {print $1}' | sort | uniq -c; true ; } > /var/tmp/worker3/beta.server
+            echo "gate q2-release: $(wc -c </var/tmp/worker3/beta.server) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - 'beta.server'
+  q2-release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/exp0_cb69
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  byte_in_us:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Fine tune the batch size when convenient
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; ls --human-readable /dev | tail -n 5; true ; } > /var/tmp/worker3/pulse.log
+            echo "gate luna-test: $(wc -c </var/tmp/worker3/pulse.log) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - 'pulse.log'
+  luna-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/exp0_cb69
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  v5:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Route the dock in safe mode
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; find /usr/lib -maxdepth 2 -type d -iname 'os-release' -exec du -sh {} + 2>/dev/null|sort; true ; } > /var/tmp/worker3/20150727_014724
+            echo "gate check-nightly-regression-suite: $(wc -c </var/tmp/worker3/20150727_014724) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - '20150727_014724'
+  check-nightly-regression-suite:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/sample_259
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  copyCanvas:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Confirmation for later
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; printf '%s' '   leading spaces'; echo; true ; } > /var/tmp/worker3/250.153.43
+            echo "gate feat-4106: $(wc -c </var/tmp/worker3/250.153.43) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - '250.153.43'
+  feat-4106:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/sample_259
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  flattenProviderDefaultUnsafe:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: H hour pause
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; cut -d: -f1 /etc/passwd | rev | nl; true ; } > /var/tmp/worker3/sys.usr
+            echo "gate jun23-release: $(wc -c </var/tmp/worker3/sys.usr) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - 'sys.usr'
+  jun23-release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/exp0_cb69
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  loopCommandAdapter:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: When do we dedupe the temp files
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; find /usr/lib \( -name "*.conf" -o -name "*.py" \) -newermt 2015-12-31 -group root -exec ls -ld {} + 2> /dev/null|wc -l; true ; } > /var/tmp/worker3/7w
+            echo "gate DEV_RUN_1: $(wc -c </var/tmp/worker3/7w) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - '7w'
+  DEV_RUN_1:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/exp0_cb69
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+  queue-latest-full:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: TEST ONLY RESIZE
+          command: |
+            mkdir -p /var/tmp/worker3
+            { set +o pipefail 2>/dev/null; ls -dXs --color=auto /bin | pr -3 -t; true ; } > /var/tmp/worker3/0buj5B3gYbrwBA2MtA9a
+            echo "gate go1-21-vet: $(wc -c </var/tmp/worker3/0buj5B3gYbrwBA2MtA9a) bytes total"
+      - persist_to_workspace:
+          root: /var/tmp/worker3
+          paths:
+            - '0buj5B3gYbrwBA2MtA9a'
+  go1-21-vet:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/worker3
+      - run:
+          name: Record prior
+          command: |
+            cat /var/tmp/worker3/exp0_cb69
+      - run:
+          name: Fetch working tree
+          command: git clone --depth 3 -q --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar -I bzip2 -xf ci-artifacts.tar.bz2
+      - run:
+          command: "./release-run"
+
+workflows:
+  default:
+    jobs:
+      - aa-37-b8
+      - eta_bar
+      - chore-5653:
+          requires:
+            - aa-37-b8
+            - eta_bar
+      - phoenix-ng:
+          requires:
+            - aa-37-b8
+            - eta_bar
+      - rip-it:
+          requires:
+            - aa-37-b8
+            - eta_bar
+      - check-nightly-regression-suite:
+          requires:
+            - aa-37-b8
+            - eta_bar
+      - realease-33:
+          requires:
+            - aa-37-b8
+            - eta_bar
+      - rc-v9:
+          requires:
+            - aa-37-b8
+            - eta_bar
+      - full-send:
+          requires:
+            - aa-37-b8
+            - eta_bar
+      - verify-end-to-end-docker-image:
+          requires:
+            - aa-37-b8
+            - eta_bar
+      - STG_VERIFY_5:
+          requires:
+            - aa-37-b8
+            - eta_bar
+      - smoke:
+          requires:
+            - aa-37-b8
+            - eta_bar
+      - go-live:
+          requires:
+            - aa-37-b8
+            - eta_bar
+      - bake-it:
+          requires:
+            - aa-37-b8
+            - eta_bar
+      - feat-4106:
+          requires:
+            - aa-37-b8
+            - eta_bar
+      - depoly:
+          requires:
+            - aa-37-b8
+            - eta_bar
+      - luna-ci:
+          requires:
+            - aa-37-b8
+            - eta_bar
+      - run-full-test-matrix:
+          requires:
+            - aa-37-b8
+            - eta_bar
+      - assemble-staging-integration-tests:
+          requires:
+            - aa-37-b8
+            - eta_bar
+      - winStream4
+      - loopCommandAdapter
+      - LAB_BUILD_5:
+          requires:
+            - winStream4
+            - loopCommandAdapter
+      - DEV_RUN_1:
+          requires:
+            - winStream4
+            - loopCommandAdapter
+      - tweak-metrics:
+          requires:
+            - winStream4
+            - loopCommandAdapter
+      - rm-oauth-crash:
+          requires:
+            - winStream4
+            - loopCommandAdapter
+      - q2-release:
+          requires:
+            - winStream4
+            - loopCommandAdapter
+      - go1-21-vet:
+          requires:
+            - winStream4
+            - loopCommandAdapter
+      - charlie-4:
+          requires:
+            - winStream4
+            - loopCommandAdapter
+      - LaunchService:
+          requires:
+            - winStream4
+            - loopCommandAdapter
+      - luna-test:
+          requires:
+            - winStream4
+            - loopCommandAdapter
+      - jun23-release:
+          requires:
+            - winStream4
+            - loopCommandAdapter
+      - artifacts:
+          requires:
+            - winStream4
+            - loopCommandAdapter
+      - q3-smoke:
+          requires:
+            - winStream4
+            - loopCommandAdapter
+      - tam-push:
+          requires:
+            - winStream4
+            - loopCommandAdapter
